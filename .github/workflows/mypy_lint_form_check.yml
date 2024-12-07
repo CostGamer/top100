@@ -34,9 +34,7 @@ jobs:
       - name: Cache Poetry dependencies
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.cache/pypoetry
-            ~/.local
+          path: ~/.cache/pypoetry
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-poetry-
@@ -52,8 +50,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Use Poetry from setup job
-        run: echo "Poetry is already installed"
+      - name: Restore Poetry dependencies from cache
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Run black (formatting)
         run: |
@@ -70,8 +69,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Use Poetry from setup job
-        run: echo "Poetry is already installed"
+      - name: Restore Poetry dependencies from cache
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Run mypy
         run: |
