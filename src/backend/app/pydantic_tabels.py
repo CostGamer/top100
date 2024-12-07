@@ -1,5 +1,7 @@
-from pydantic import BaseModel, ConfigDict, Field
 from datetime import date as dt_date
+
+from pydantic import BaseModel, ConfigDict, Field
+
 
 class top_100(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -20,4 +22,6 @@ class activity(BaseModel):
 
     date: dt_date = Field(..., description="дата")
     commits: int = Field(..., description="количество коммитов за конкретный день")
-    authors: list[str] = Field(..., description="список разработчиков, которые выполняли коммиты")
+    authors: list[str] = Field(
+        ..., description="список разработчиков, которые выполняли коммиты"
+    )
