@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "top100"
+version = "0.1.0"
+description = ""
+authors = ["Vladimir <vladimirbryzgalov00@gmail.com>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.13"
+fastapi = "^0.115.6"
+pydantic = "^2.10.3"
+psycopg = "^3.2.3"
+pydantic-settings = "^2.6.1"
+psycopg-pool = "^3.2.4"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+pytest-asyncio = "^0.24.0"
+ruff = "^0.8.2"
+mypy = "^1.13.0"
+black = "^24.10.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.mypy]
+files = "src/, tests/"
+ignore_missing_imports = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "W191",  # indentation contains tabs
+    "B904",
+]
+
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+xfail_strict=true
+filterwarnings = [
+    "ignore::PendingDeprecationWarning",
+]
