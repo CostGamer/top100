@@ -39,9 +39,14 @@ class LoggingSettings(BaseSettings):
     LOG_ENCODING: str = "utf-8"
 
 
+class GHTokenSettings(BaseSettings):
+    GH_TOKEN: str = "test_token"
+
+
 class Settings(
     DatabaseSettings,
     LoggingSettings,
+    GHTokenSettings,
 ):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

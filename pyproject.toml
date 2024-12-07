@@ -13,6 +13,7 @@ pydantic = "^2.10.3"
 psycopg = "^3.2.3"
 pydantic-settings = "^2.6.1"
 psycopg-pool = "^3.2.4"
+requests = "^2.32.3"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -22,6 +23,7 @@ ruff = "^0.8.2"
 mypy = "^1.13.0"
 black = "^24.10.0"
 pre-commit = "^4.0.1"
+types-requests = "^2.32.0.20241016"
 
 
 [build-system]
