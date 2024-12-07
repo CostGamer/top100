@@ -47,6 +47,3 @@ class Settings(
 
 
 all_settings = Settings()
-
-print(all_settings.db_uri)
-# print(all_settings.db_uri_test)
