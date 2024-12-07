@@ -1,0 +1,78 @@
+name: Code Quality Checks
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      poetry-path: ${{ steps.poetry.outputs.path }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+        id: poetry
+
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.local
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      - name: Install dependencies with Poetry
+        run: |
+          poetry install --no-interaction --no-root --with dev
+
+  linting:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Use Poetry from setup job
+        run: echo "Poetry is already installed"
+
+      - name: Run black (formatting)
+        run: |
+          poetry run black --check .  
+
+      - name: Run ruff (linting)
+        run: |
+          poetry run ruff check .  
+
+  type_check:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Use Poetry from setup job
+        run: echo "Poetry is already installed"
+
+      - name: Run mypy
+        run: |
+          poetry run mypy . --ignore-missing-imports
