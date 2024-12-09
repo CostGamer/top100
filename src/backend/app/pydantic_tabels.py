@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field
 class top_100(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    name: str = Field(..., description="название репозитория")
+    repo: str = Field(..., description="название репозитория")
     owner: str = Field(..., description="владелец репозитория")
     position_cur: int = Field(..., description="текущая позиция в топе")
     position_prev: int = Field(..., description="предыдущая позиция в топе")

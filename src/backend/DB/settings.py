@@ -1,5 +1,17 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+VALID_PARAMS = (
+    "repo",
+    "owner",
+    "position_cur",
+    "position_prev",
+    "stars",
+    "watchers",
+    "forks",
+    "open_issues",
+    "language",
+)
+
 
 class DatabaseSettings(BaseSettings):
     DB_HOST: str = "127.0.0.1"
