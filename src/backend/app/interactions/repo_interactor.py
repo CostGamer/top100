@@ -16,8 +16,8 @@ class GetRepoInteractor:
         try:
             top_100_repo = await self._repo_gateway.get_top_100_repo_sorted(sort_clause)
             return [top_100.model_validate(repo) for repo in top_100_repo]
-        except Exception:
-            raise RuntimeError
+        except Exception as e:
+            raise RuntimeError(f"Error: {e}")
 
     async def _process_sort_params(self, sort_params: str | None) -> str:
         if not sort_params:
@@ -31,4 +31,6 @@ class GetRepoInteractor:
         if not all(param in VALID_PARAMS for param in sort_params_list):
             raise ParamIsIncorrect
 
-        return ", ".join(sort_params_list)
+        if len(sort_params_list) > 1:
+            return ", ".join(sort_params_list)
+        return sort_params_list[0]

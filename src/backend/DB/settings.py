@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 VALID_PARAMS = (
-    "name",
+    "repo",
     "owner",
     "position_cur",
     "position_prev",

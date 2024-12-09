@@ -4,12 +4,13 @@ from typing import Any, AsyncGenerator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.backend.api.git_routes import git_router
 from src.backend.DB.db import close_async_pool, init_async_pool
 from src.backend.logs import setup_logger
 
 
 def init_routers(app: FastAPI) -> None:
-    pass
+    app.include_router(git_router, prefix="/api/repos", tags=["git"])
 
 
 def init_middlewares(app: FastAPI) -> None:
