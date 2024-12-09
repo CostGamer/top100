@@ -20,7 +20,7 @@ class CommitGateway:
             FROM activity
             WHERE owner = %(owner)s
             AND repo = %(repo)s
-            AND date BETWEEN %(since)s AND %(until)s
+            AND date BETWEEN %(since)s AND %(until)s;
             """
         async with self._con.cursor(row_factory=dict_row) as cursor:
             await cursor.execute(
@@ -33,3 +33,25 @@ class CommitGateway:
                 },
             )
             return await cursor.fetchall()
+
+    async def check_owner_exists(self, owner: str) -> bool:
+        query = """
+            SELECT 1
+            FROM activity
+            WHERE owner = %(owner)s;
+            """
+        async with self._con.cursor() as cursor:
+            await cursor.execute(query, params={"owner": owner})
+            res = await cursor.fetchone()
+            return res is not None
+
+    async def check_repo_exists(self, repo: str) -> bool:
+        query = """
+            SELECT 1
+            FROM activity
+            WHERE repo = %(repo)s;
+            """
+        async with self._con.cursor() as cursor:
+            await cursor.execute(query, params={"repo": repo})
+            res = await cursor.fetchone()
+            return res is not None

@@ -33,3 +33,23 @@ param_not_valid = HTTPException(
     status_code=status.HTTP_400_BAD_REQUEST,
     detail="The sort param is not valid",
 )
+
+owner_does_not_exist = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail="Inserted owner was not found",
+)
+
+repo_does_not_exist = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND,
+    detail="Inserted repo was not found",
+)
+
+until_is_bigger_than_since = HTTPException(
+    status_code=status.HTTP_409_CONFLICT,
+    detail="Until could not be bigger than since",
+)
+
+incorrect_date_format = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST,
+    detail="The date format must be YYYY-MM-dd",
+)

@@ -12,14 +12,15 @@ class GetRepoInteractor:
         self._repo_gateway = repo_gateway
 
     async def __call__(self, sort_params: str | None = None) -> list[top_100]:
-        sort_clause = await self._process_sort_params(sort_params)
+        sort_clause = self._process_sort_params(sort_params)
         try:
             top_100_repo = await self._repo_gateway.get_top_100_repo_sorted(sort_clause)
             return [top_100.model_validate(repo) for repo in top_100_repo]
         except Exception as e:
             raise RuntimeError(f"Error: {e}")
 
-    async def _process_sort_params(self, sort_params: str | None) -> str:
+    @staticmethod
+    def _process_sort_params(sort_params: str | None) -> str:
         if not sort_params:
             return "position_cur"
 
