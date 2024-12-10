@@ -16,7 +16,7 @@ async def get_db_and_execute(
     query: str,
     params: dict | None = None,
     pool: AsyncConnectionPool | None = None,
-) -> list[tuple] | None:  # type: ignore
+) -> list[tuple] | None:
     if pool is None:
         raise RuntimeError("Connection pool is not initialized.")
     async with pool.connection() as async_connection:
@@ -27,6 +27,7 @@ async def get_db_and_execute(
                     return await cursor.fetchall()
                 else:
                     await async_connection.commit()
+                    return None
             except Exception as e:
                 print(f"Query error: {e}")
                 await async_connection.rollback()

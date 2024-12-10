@@ -11,7 +11,6 @@ class GitHubParser:
                 "repo": repo["full_name"].split("/")[1],
                 "owner": repo["owner"]["login"],
                 "position_cur": position_cur,
-                "position_prev": None,
                 "stars": repo["stargazers_count"],
                 "watchers": repo["watchers_count"],
                 "forks": repo["forks_count"],

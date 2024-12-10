@@ -1,6 +1,7 @@
 from src.backend.DB.settings import all_settings
 
-GITHUB_API_URL = "https://api.github.com/search/repositories"
+GITHUB_API_URL_REPO = "https://api.github.com/search/repositories"
+GITHUB_API_URL_COMMITS = "https://api.github.com"
 HEADERS = {
     "Accept": "application/vnd.github+json",
     "Authorization": f"Bearer {all_settings.GH_TOKEN}",
