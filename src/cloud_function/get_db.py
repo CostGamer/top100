@@ -1,27 +1,25 @@
-import psycopg
-from psycopg import AsyncConnection
+from psycopg_pool import AsyncConnectionPool
 
 from src.cloud_function.cloud_config import DB_URI
 
 
-async def get_db_connection() -> AsyncConnection:
-    try:
-        # self.connection = psycopg.connect(
-        #     host=DB_HOST,
-        #     port=DB_PORT,
-        #     user=DB_USER,
-        #     password=DB_PASSWORD,
-        #     database=DB_NAME
-        # )
-        async_connection = await psycopg.AsyncConnection.connect(DB_URI)
-        return async_connection
-    except Exception as e:
-        print(f"DB connection errro: {e}")
-        raise
+async def init_async_pool() -> AsyncConnectionPool:
+    pool = AsyncConnectionPool(
+        conninfo=DB_URI,
+        min_size=1,
+        max_size=10,
+    )
+    return pool
 
 
-async def execute_query(query: str, params: tuple | None = None) -> list[tuple] | None:  # type: ignore
-    async with await get_db_connection() as async_connection:
+async def get_db_and_execute(
+    query: str,
+    params: dict | None = None,
+    pool: AsyncConnectionPool | None = None,
+) -> list[tuple] | None:  # type: ignore
+    if pool is None:
+        raise RuntimeError("Connection pool is not initialized.")
+    async with pool.connection() as async_connection:
         async with async_connection.cursor() as cursor:
             try:
                 await cursor.execute(query, params)
