@@ -48,4 +48,4 @@ def setup_app() -> FastAPI:
     return app
 
 
-app = setup_app()
+# app = setup_app()
