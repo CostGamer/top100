@@ -20,18 +20,18 @@ class GitHubParser:
             parsed_data.append(parsed_repo)
         return parsed_data
 
-    async def parse_commits(
-        self, repo_name: str, owner: str, commits: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
-        parsed_commits = []
+    # async def parse_commits(
+    #     self, repo_name: str, owner: str, commits: list[dict[str, Any]]
+    # ) -> list[dict[str, Any]]:
+    #     parsed_commits = []
 
-        for commit in commits:
-            parsed_commit = {
-                "repo_name": repo_name,
-                "owner": owner,
-                "author": commit["commit"]["author"]["name"],
-                "date": commit["commit"]["author"]["date"],
-            }
-            parsed_commits.append(parsed_commit)
+    #     for commit in commits:
+    #         parsed_commit = {
+    #             "repo_name": repo_name,
+    #             "owner": owner,
+    #             "author": commit["commit"]["author"]["name"],
+    #             "date": commit["commit"]["author"]["date"],
+    #         }
+    #         parsed_commits.append(parsed_commit)
 
-        return parsed_commits
+    #     return parsed_commits
