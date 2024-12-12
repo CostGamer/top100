@@ -25,7 +25,6 @@ async def close_async_pool() -> None:
         logger.info("Connection pool closed")
 
 
-# @asynccontextmanager
 async def get_db() -> AsyncGenerator[psycopg.AsyncConnection, None]:
     global _pool
     if _pool is None:
@@ -38,17 +37,3 @@ async def get_db() -> AsyncGenerator[psycopg.AsyncConnection, None]:
             await conn.rollback()
             logger.warning(f"Error: {e}")
             raise
-
-
-# async def execute_query(query: str, params: tuple = ()) -> list[tuple]:
-#     async with get_db() as conn:
-#         async with conn.cursor() as cursor:
-#             try:
-#                 await cursor.execute(query, params)
-#                 if query.strip().upper().startswith("SELECT"):
-#                     return await cursor.fetchall()
-#                 else:
-#                     return []
-#             except Exception as e:
-#                 logger.warning(f"Error executing query: {e}")
-#                 raise
