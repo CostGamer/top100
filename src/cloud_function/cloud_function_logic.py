@@ -10,23 +10,23 @@ parser = GitHubParser()
 
 async def fetch_parse_push_to_db_repo(pool: AsyncConnectionPool) -> None:
     delete_query = """
-    DELETE FROM top100
-    WHERE repo = %(repo)s;
-    """
+        DELETE FROM top100
+        WHERE repo = %(repo)s;
+        """
     insert_query = """
-    INSERT INTO top100 (
-        repo, owner, position_cur, position_prev, stars, watchers, forks, open_issues, language
-    )
-    VALUES (
-        %(repo)s, %(owner)s, %(position_cur)s, %(position_prev)s, %(stars)s,
-        %(watchers)s, %(forks)s, %(open_issues)s, %(language)s
-    )
-    """
+        INSERT INTO top100 (
+            repo, owner, position_cur, position_prev, stars, watchers, forks, open_issues, language
+        )
+        VALUES (
+            %(repo)s, %(owner)s, %(position_cur)s, %(position_prev)s, %(stars)s,
+            %(watchers)s, %(forks)s, %(open_issues)s, %(language)s
+        )
+        """
     get_query = """
-    SELECT position_cur
-    FROM top100
-    WHERE repo = %(repo)s
-    """
+        SELECT position_cur
+        FROM top100
+        WHERE repo = %(repo)s
+        """
 
     try:
         repos = await fetcher.get_top_repos()
