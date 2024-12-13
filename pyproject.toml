@@ -58,6 +58,7 @@ ignore = [
     "W191",  # indentation contains tabs
     "B904",
 ]
+exclude = ["*.zip", "/package/"]
 
 
 [tool.pytest.ini_options]

@@ -1,8 +1,8 @@
-from psycopg_pool import AsyncConnectionPool
+from parser import GitHubParser
 
-from src.cloud_function.fetcher import GitHubFetcher
-from src.cloud_function.get_db import get_db_and_execute
-from src.cloud_function.parser import GitHubParser
+from fetcher import GitHubFetcher
+from get_db import get_db_and_execute
+from psycopg_pool import AsyncConnectionPool
 
 fetcher = GitHubFetcher()
 parser = GitHubParser()
