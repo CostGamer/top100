@@ -2,12 +2,12 @@ from typing import AsyncGenerator
 from unittest.mock import MagicMock
 
 import pytest
+from fake_db import fake_data
 from httpx import ASGITransport, AsyncClient
 from pytest_mock import MockerFixture
 from requests.models import Response
 
 from src.backend.main import setup_app
-from tests.fake_items import fake_data
 
 
 @pytest.fixture
