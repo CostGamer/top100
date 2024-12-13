@@ -13,7 +13,11 @@ logger = setup_logger(__name__)
 async def init_async_pool() -> None:
     global _pool
     if _pool is None:
-        _pool = AsyncConnectionPool(conninfo=all_settings.db_uri)
+        _pool = AsyncConnectionPool(
+            conninfo=all_settings.db_uri,
+            min_size=1,
+            max_size=10,
+        )
         logger.info("Connection pool initialized")
 
 

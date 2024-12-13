@@ -18,7 +18,7 @@ def setup_logger(name: str) -> logging.Logger:
         level=log_level,
         datefmt=log_date_format,
         format=log_format,
-        handlers=[logging.StreamHandler()],  # Обработчик для вывода в консоль
+        handlers=[logging.StreamHandler()],
     )
 
     file_handler = RotatingFileHandler(
