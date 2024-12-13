@@ -29,31 +29,31 @@ class DatabaseSettings(BaseSettings):
         )
 
 
-# class DatabaseSettingsTest(BaseSettings):
-#     DB_HOST_TEST: str = "127.0.0.1"
-#     DB_PORT_TEST: int = 5432
-#     DB_NAME_TEST: str = "db_test"
-#     DB_USER_TEST: str = "test_user"
-#     DB_PASSWORD_TEST: str = "test_pass"
-#     DATABASE_URL_TEST: str | None = None
-
-#     @property
-#     def db_uri_test(self) -> str:
-#         return (
-#             self.DATABASE_URL_TEST
-#             or f"postgresql://{self.DB_USER_TEST}:{self.DB_PASSWORD_TEST}@{self.DB_HOST_TEST}:{self.DB_PORT_TEST}/{self.DB_NAME_TEST}"
-#         )
-
-
 class LoggingSettings(BaseSettings):
     LOG_LEVEL: str = "DEBUG"
     LOG_FILE: str = "app.log"
     LOG_ENCODING: str = "utf-8"
 
 
+class GHTokenSettings(BaseSettings):
+    GH_TOKEN: str = "test_token"
+
+    @property
+    def headers(self) -> dict:
+        return {
+            "Accept": "application/vnd.github+json",
+            "Authorization": f"Bearer {self.GH_TOKEN}",
+        }
+
+    @property
+    def github_api_url(self) -> str:
+        return "https://api.github.com/repos"
+
+
 class Settings(
     DatabaseSettings,
     LoggingSettings,
+    GHTokenSettings,
 ):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

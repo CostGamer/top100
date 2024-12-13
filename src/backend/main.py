@@ -46,6 +46,3 @@ def setup_app() -> FastAPI:
     init_routers(app)
     init_middlewares(app)
     return app
-
-
-# app = setup_app()

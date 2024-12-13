@@ -68,8 +68,8 @@ async def get_top_100_repo(
 async def get_repo_activity(
     owner: str,
     repo: str,
-    since: str = Query(example="2025-01-01"),
-    until: str = Query(example="2025-01-01"),
+    since: str = Query(example="2025-01-20"),
+    until: str = Query(example="2025-01-20"),
     db: AsyncConnection = Depends(get_db),
 ) -> list[activity]:
     commit_gateway = CommitGateway(db)
