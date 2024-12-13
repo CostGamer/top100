@@ -1,6 +1,5 @@
+from cloud_config import DB_URI
 from psycopg_pool import AsyncConnectionPool
-
-from src.cloud_function.cloud_config import DB_URI
 
 
 async def init_async_pool() -> AsyncConnectionPool:
