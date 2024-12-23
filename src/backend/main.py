@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.backend.api.git_routes import git_router
-from src.backend.DB.db import close_async_pool, init_async_pool
+from src.backend.DB.db import database_pool
 from src.backend.logs import setup_logger
 
 
@@ -30,9 +30,9 @@ def init_middlewares(app: FastAPI) -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[Any, Any]:
-    await init_async_pool()
+    await database_pool.init_async_pool()
     yield
-    await close_async_pool()
+    await database_pool.close_async_pool()
 
 
 def setup_app() -> FastAPI:
