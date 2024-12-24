@@ -1,25 +1,12 @@
 from fastapi import APIRouter, Depends, Query
 
-from src.backend.api.exceptions import (
-    incorrect_date_format,
-    owner_does_not_exist,
-    param_not_valid,
-    params_incorrect_format,
-    repo_does_not_exist,
-    until_is_bigger_than_since,
-    with_errors,
+from src.backend.api.responses import (
+    get_repo_activity_responses,
+    get_top_100_repo_responses,
 )
 from src.backend.app.interactions.commit_interactor import GetCommitInteractor
-from src.backend.app.interactions.custom_exceptions import (
-    DateFormatIsIncorrect,
-    FormatIsIncorrect,
-    OwnerDoesNotExist,
-    ParamIsIncorrect,
-    RepoDoesNotExist,
-    UntilIsBiggerThanSince,
-)
 from src.backend.app.interactions.repo_interactor import GetRepoInteractor
-from src.backend.app.pydantic_tabels import activity, top_100
+from src.backend.app.pydantic_tabels import Activity, Top100
 from src.backend.app.repo import get_commit_interactor, get_repo_interactor
 
 git_router = APIRouter()
@@ -27,36 +14,21 @@ git_router = APIRouter()
 
 @git_router.get(
     "/top100",
-    response_model=list[top_100],
-    responses=with_errors(
-        params_incorrect_format,
-        param_not_valid,
-    ),
+    response_model=list[Top100],
+    responses=get_top_100_repo_responses,
     description="Endpoint that fetch top 100 GIT repositories by stars. Also you can send sorted parameter(es)",
 )
 async def get_top_100_repo(
     sort_params: str | None = Query(None, example="repo, owner"),
     top_100_interactor: GetRepoInteractor = Depends(get_repo_interactor),
-) -> list[top_100]:
-    try:
-        return await top_100_interactor(sort_params)
-    except RuntimeError:
-        raise
-    except FormatIsIncorrect:
-        raise params_incorrect_format
-    except ParamIsIncorrect:
-        raise param_not_valid
+) -> list[Top100]:
+    return await top_100_interactor(sort_params)
 
 
 @git_router.get(
     "/{owner}/{repo}/activity",
-    response_model=list[activity],
-    responses=with_errors(
-        owner_does_not_exist,
-        repo_does_not_exist,
-        until_is_bigger_than_since,
-        incorrect_date_format,
-    ),
+    response_model=list[Activity],
+    responses=get_repo_activity_responses,
     description="Endpoint that fetches repository activity for a specified period",
 )
 async def get_repo_activity(
@@ -65,16 +37,5 @@ async def get_repo_activity(
     since: str = Query(example="2025-01-20"),
     until: str = Query(example="2025-01-20"),
     commit_interactor: GetCommitInteractor = Depends(get_commit_interactor),
-) -> list[activity]:
-    try:
-        return await commit_interactor(owner, repo, since, until)
-    except OwnerDoesNotExist:
-        raise owner_does_not_exist
-    except RepoDoesNotExist:
-        raise repo_does_not_exist
-    except UntilIsBiggerThanSince:
-        raise until_is_bigger_than_since
-    except DateFormatIsIncorrect:
-        raise incorrect_date_format
-    except RuntimeError:
-        raise
+) -> list[Activity]:
+    return await commit_interactor(owner, repo, since, until)

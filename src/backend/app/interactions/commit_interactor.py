@@ -10,7 +10,7 @@ from src.backend.app.interactions.custom_exceptions import (
     RepoDoesNotExist,
     UntilIsBiggerThanSince,
 )
-from src.backend.app.pydantic_tabels import activity
+from src.backend.app.pydantic_tabels import Activity
 from src.backend.DB.settings import all_settings
 
 
@@ -24,7 +24,7 @@ class GetCommitInteractor:
         repo: str,
         since: str,
         until: str,
-    ) -> list[activity]:
+    ) -> list[Activity]:
         commits_list = []
 
         if not await self._commit_gateway.check_owner_exists(owner):
@@ -64,7 +64,7 @@ class GetCommitInteractor:
 
             exact_day += timedelta(days=1)
 
-        return [activity.model_validate(commmit) for commmit in commits_list]
+        return [Activity.model_validate(commmit) for commmit in commits_list]
 
     async def _fetch_and_store_commits(
         self, owner: str, repo: str, date: set_date
