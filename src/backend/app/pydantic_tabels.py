@@ -3,7 +3,7 @@ from datetime import date as dt_date
 from pydantic import BaseModel, ConfigDict, Field
 
 
-class top_100(BaseModel):
+class Top100(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     repo: str = Field(..., description="название репозитория")
@@ -17,7 +17,7 @@ class top_100(BaseModel):
     language: str | None = Field(None, description="язык")
 
 
-class activity(BaseModel):
+class Activity(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     date: dt_date = Field(..., description="дата")
